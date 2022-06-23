@@ -16,19 +16,31 @@ async function handleInput(e) {
     console.log(e.key)
     switch (e.key) {
         case "ArrowUp":
-            if (!canMoveUp())
+            if (!canMoveUp()) {
+                setupInput()
+                return
+            }
             await moveUp()
             break
-            case "ArrowDown":
-            if (!canMoveDown())
+        case "ArrowDown":
+            if (!canMoveDown()) {
+                setupInput()
+                return
+            }
             await moveDown()
             break
-            case "ArrowLeft":
-            if (!canMoveLeft())
+        case "ArrowLeft":
+            if (!canMoveLeft()) {
+                setupInput()
+                return
+            }
             await moveLeft()
             break
-            case "ArrowRight":
-            if (!canMoveRight())
+        case "ArrowRight":
+            if (!canMoveRight()) {
+                setupInput()
+                return
+            }
             await moveRight()
             break
         default:
@@ -43,7 +55,7 @@ async function handleInput(e) {
 
     if (!canMoveUp() && !canMoveDown() && !canMoveLeft() && !canMoveRight()) {
         newTile.waitForTransition(true).then(() => {
-            alert("You Lose")
+            alert("Better luck next time! Refresh to play again.")
         })
         return
     }
@@ -74,12 +86,13 @@ function slideTiles(cells) {
         for (let i = 1; i < group.length; i++) {
             const cell = group[i]
             if (cell.tile == null) continue
-            lastValidCell
+            let lastValidCell
             for (let j = i - 1; j >= 0; j--) {
                 const moveToCell = group[j]
                 if (!moveToCell.canAccept(cell.tile)) break
                 lastValidCell = moveToCell
             }
+
             if (lastValidCell != null) {
                 promises.push(cell.tile.waitForTransition())
                 if (lastValidCell.tile != null) {
@@ -91,7 +104,8 @@ function slideTiles(cells) {
             }
         }
         return promises
-    }))
+    })
+    )
 }
 
 function canMoveUp() {
@@ -107,7 +121,7 @@ function canMoveLeft() {
 }
 
 function canMoveRight() {
-    return canMove(grid.cellsByRow.map(column => [...row].reverse()))
+    return canMove(grid.cellsByRow.map(row => [...row].reverse()))
 }
 
 function canMove(cells) {

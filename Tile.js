@@ -33,7 +33,6 @@ export default class Tile {
     set x(value) {
         this.#x = value
         this.#tileElement.style.setProperty("--x", value)
-
     }
 
     set y(value) {

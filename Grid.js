@@ -16,11 +16,10 @@ export default class Grid {
                 Math.floor(index / GRID_SIZE)
             )
         })
-        console.log(this.cells)
     }
 
     get cells() {
-        return this.cells
+        return this.#cells
     }
 
     get cellsByRow() {
@@ -81,7 +80,7 @@ class Cell {
         this.#tile.y = this.#y
     }
 
-    get #mergeTile() {
+    get mergeTile() {
         return this.#mergeTile
     }
 
